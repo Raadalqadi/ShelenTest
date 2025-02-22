@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkmy_app=self.webpackChunkmy_app||[]).push([[763],{2763:(e,t,s)=>{s.r(t),s.d(t,{default:()=>u});var a=s(5043),l=s(1675),n=s(579);const u=()=>{const e=(0,l.Zp)(),[t,s]=(0,a.useState)(!1);return(0,a.useEffect)((()=>{localStorage.getItem("shlen_token")?s(!0):e("/login")}),[e]),t?(0,n.jsx)(l.sv,{}):null}}}]);
+//# sourceMappingURL=763.6e02dfab.chunk.js.map
