@@ -1,10 +1,19 @@
-# استخدم صورة .NET الرسمية
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
+EXPOSE 5000
 
-# انسخ الملفات المنشورة إلى الحاوية
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+WORKDIR /src
+COPY ["TestApi/TestApi.csproj", "TestApi/"]
+RUN dotnet restore "TestApi/TestApi.csproj"
 COPY . .
+WORKDIR "/src/TestApi"
+RUN dotnet build "TestApi.csproj" -c Release -o /app/build
 
-# تعيين المتغير PORT وإعداد تشغيل التطبيق
-ENV ASPNETCORE_URLS=http://+:${PORT}
-CMD ["dotnet", "TestApi.dll"]
+FROM build AS publish
+RUN dotnet publish "TestApi.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "TestApi.dll"]
